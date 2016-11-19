@@ -1,8 +1,8 @@
-# Laravel package to process payments and refunds with Instamojo
+# Laravel package to process transactions with Instamojo
 
 [![Latest Stable Version](https://poser.pugx.org/lubusin/laravel-mojo/v/stable)](https://packagist.org/packages/lubusin/laravel-mojo)
-[![Total Downloads](https://poser.pugx.org/lubusin/laravel-mojo/downloads)](https://packagist.org/packages/lubusin/laravel-mojo)
 [![License](https://poser.pugx.org/lubusin/laravel-mojo/license)](https://packagist.org/packages/lubusin/laravel-mojo)
+[![Total Downloads](https://poser.pugx.org/lubusin/laravel-mojo/downloads)](https://packagist.org/packages/lubusin/laravel-mojo)
 
 ## Introduction
 Laravel Mojo provides an expressive, fluent interface to [Instamojo's](https://instamojo.com) online payment and refund services. It handles almost all of the boilerplate payment code you are dreading writing and are unable to watch Narcos because of the same. In addition to basic payment and refunds management, Mojo stores all the tansaction & refund details with him and gives them to you as asked (No you don't need to even shout Ok google for that). 
@@ -10,6 +10,7 @@ Laravel Mojo provides an expressive, fluent interface to [Instamojo's](https://i
 Here are a few short examples of what you can do:
 ```php
 $Payment_page = Mojo::go($user,$amount,$purpose);
+
 return redirect($Payment_page);
 ```
 That's it for making payment, also it gets you the details with the same breeze:
@@ -19,7 +20,9 @@ $details = Mojo::done();
 My 3 most favourites out of all the helpers
 ```php
 $income = Mojo::myAndMojosIncome(); // Total amount including Instamojo's fees
+
 $income = Mojo::myIncome(); // Total amount excluding Instamojo's fees
+
 $income = Mojo::mojosIncome(); // Instamojo's total fees
 ```
 > You can find many more such mojo helpers in the documentation 
