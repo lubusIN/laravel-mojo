@@ -1,0 +1,19 @@
+{
+    "name": "lubusin/mojo",
+    "description": "Laravel Mojo provides an expressive, fluent interface to Instamojo's payment and refund services.",
+    "keywords": ["laravel", "instamojo", "package"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Harish Toshniwal",
+            "email": "haristoshniwal@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lubus\\Mojo\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
