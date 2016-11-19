@@ -4,6 +4,7 @@
 [![Total Downloads](https://poser.pugx.org/lubusin/laravel-mojo/downloads)](https://packagist.org/packages/lubusin/laravel-mojo)
 [![License](https://poser.pugx.org/lubusin/laravel-mojo/license)](https://packagist.org/packages/lubusin/laravel-mojo)
 
+## Introduction
 Laravel Mojo provides an expressive, fluent interface to [Instamojo's](https://instamojo.com) online payment and refund services. It handles almost all of the boilerplate payment code you are dreading writing and are unable to watch Narcos because of the same. In addition to basic payment and refunds management, Mojo stores all the tansaction & refund details with him and gives them to you as asked (No you don't need to even shout Ok google for that). 
 
 Here are a few short examples of what you can do:
@@ -24,7 +25,7 @@ $income = Mojo::mojosIncome(); // Instamojo's total fees
 > You can find many more such mojo helpers in the documentation 
 
 ## Documentation
-You'll find the entire documentation & spoiler for Narcos season 3 in the [wiki](https://docs.spatie.be/laravel-medialibrary/v4).
+You'll find the entire documentation & spoiler for Narcos season 3 in the [wiki](https://github.com/lubusIN/laravel-mojo/wiki).
 Since thats why wiki is made for! But, no one cares sigh...
 
 Stuck somewhere using the laravel mojo, any feature requests, or tinder username? Feel free to [create an issue on GitHub](https://github.com/lubusIN/laravel-mojo/issues), we'll try to address it as soon as possible.
