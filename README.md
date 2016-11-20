@@ -6,7 +6,9 @@
 
 ## Introduction
 ![github-header](https://cloud.githubusercontent.com/assets/11228182/20463744/25754186-af60-11e6-9a48-543347a52c7f.jpg)
+
 Laravel Mojo provides an expressive, fluent interface to [Instamojo's](https://instamojo.com) online payments and refund services. It handles almost all of the boilerplate payment code you are dreading writing and are unable to watch next episode of Narcos because of the same. In addition to the basic payments and refunds management, Mojo stores all the tansactions & refunds details with him and gives them to you as you ask (No you don't even need to shout Ok google for that). 
+
 
 Here are a few short examples of what you can do:
 ```php
@@ -41,6 +43,8 @@ Things coming in v2 :
 - Some bugs to fix in v3
 
 ## Installation
+
+> **Enable the CURL extension in order to use this package**
 
 You can install this package via composer using this command:
 
