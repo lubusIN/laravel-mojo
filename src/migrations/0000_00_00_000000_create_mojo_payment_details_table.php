@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMojoTransactionDetailsTable extends Migration
+class CreateMojoPaymentDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMojoTransactionDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mojo_transaction_details', function (Blueprint $table) {
+        Schema::create('mojo_payment_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
@@ -41,6 +41,6 @@ class CreateMojoTransactionDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mojo_transaction_details');
+        Schema::dropIfExists('mojo_payment_details');
     }
 }

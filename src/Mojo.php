@@ -2,7 +2,7 @@
 
 namespace Lubus\Mojo;
 
-use Lubus\Mojo\Models\MojoTransactionDetails;
+use Lubus\Mojo\Models\MojoPaymentDetails;
 use Lubus\Mojo\Models\MojoRefundDetails;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -90,21 +90,21 @@ class Mojo
 			$user = User::where('email',$details->email)->first();
 			$user_id = $user->id;
 
-	    	MojoTransactionDetails::create(['user_id' => $user_id,
-										   'buyer_email' => $details->email,
-										   'buyer_name' => $details->buyer_name,
-										   'buyer_phone' => $details->phone,
-										   'currency' => $details->payment->currency,
-										   'amount' => $details->amount,
-										   'fees' => $details->payment->fees,
-										   'longurl' => $details->longurl,
-										   'payment_id' => $details->payment->payment_id,
-										   'payment_request_id' => $details->id,
-										   'purpose' => $details->purpose,
-										   'shorturl' => $details->shorturl,
-										   'request_status' => $details->status,
-										   'payment_status' => $details->payment->status,
-										 ]);
+	    	MojoPaymentDetails::create(['user_id' => $user_id,
+									   'buyer_email' => $details->email,
+									   'buyer_name' => $details->buyer_name,
+									   'buyer_phone' => $details->phone,
+									   'currency' => $details->payment->currency,
+									   'amount' => $details->amount,
+									   'fees' => $details->payment->fees,
+									   'longurl' => $details->longurl,
+									   'payment_id' => $details->payment->payment_id,
+									   'payment_request_id' => $details->id,
+									   'purpose' => $details->purpose,
+									   'shorturl' => $details->shorturl,
+									   'request_status' => $details->status,
+									   'payment_status' => $details->payment->status,
+									 ]);
 	    	DB::commit();
 	    	return true;
 		}
@@ -118,56 +118,63 @@ class Mojo
 
 	public static function setupCURL($endPoint,$key,$token)
 	{
-			$c_init = curl_init();
+			if (extension_loaded("curl")) 
+			{
+			  	$c_init = curl_init();
 
-			curl_setopt($c_init, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($c_init, CURLOPT_URL, $endPoint);
-			curl_setopt($c_init, CURLOPT_HEADER, FALSE);
-			curl_setopt($c_init, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_setopt($c_init, CURLOPT_FOLLOWLOCATION, TRUE);
-			curl_setopt($c_init, CURLOPT_HTTPHEADER,[
-			                   "X-Api-Key: $key",
-			                   "X-Auth-Token: $token"]
-			            );
+				curl_setopt($c_init, CURLOPT_SSL_VERIFYPEER, false);
+				curl_setopt($c_init, CURLOPT_URL, $endPoint);
+				curl_setopt($c_init, CURLOPT_HEADER, FALSE);
+				curl_setopt($c_init, CURLOPT_RETURNTRANSFER, TRUE);
+				curl_setopt($c_init, CURLOPT_FOLLOWLOCATION, TRUE);
+				curl_setopt($c_init, CURLOPT_HTTPHEADER,[
+				                   "X-Api-Key: $key",
+				                   "X-Auth-Token: $token"]
+				            );
 
-			return $c_init;
+				return $c_init;
+			} 
+			else 
+			{
+			  	dd("Curl is not loaded");
+			}			
 	}
 
-	public static function allTransactions()
+	public static function allPayments()
 	{
-		 return $allTransactionDetails = MojoTransactionDetails::all();
+		 return $allPaymentDetails = MojoPaymentDetails::all();
 	}
 
-	public static function allTransactionsFor(User $user)
+	public static function allPaymentsFor(User $user)
 	{
-		return $userSpecificDetails = MojoTransactionDetails::where('user_id',$user->id)->get();
+		return $userSpecificDetails = MojoPaymentDetails::where('user_id',$user->id)->get();
 	}
 
 	public static function failedPayments()
 	{
-		return $failedPayments = MojoTransactionDetails::where('payment_status','!=','credit')->get();
+		return $failedPayments = MojoPaymentDetails::where('payment_status','!=','credit')->get();
 	}
 
 	public static function successfulPayments()
 	{
-		return $successfulPayments = MojoTransactionDetails::where('payment_status','credit')->get();
+		return $successfulPayments = MojoPaymentDetails::where('payment_status','credit')->get();
 	}
 
 	public static function myAndMojosIncome()
 	{
-		return $totalIncome = MojoTransactionDetails::sum('amount');
+		return $totalIncome = MojoPaymentDetails::sum('amount');
 	}
 
 	public static function myIncome()
 	{
-		$a = MojoTransactionDetails::sum('amount');
-		$f = MojoTransactionDetails::sum('fees');
+		$a = MojoPaymentDetails::sum('amount');
+		$f = MojoPaymentDetails::sum('fees');
 		return $earnings = $a - $f;
 	}
 
 	public static function mojosIncome()
 	{
-		return $mojoShare = MojoTransactionDetails::sum('fees');
+		return $mojoShare = MojoPaymentDetails::sum('fees');
 	}
 
 	public static function refund($payment_id,$type,$reason)
@@ -191,20 +198,21 @@ class Mojo
 			$finalResponse = json_decode($response);
 			$refund = $finalResponse->refund;
 
-			$inst = MojoTransactionDetails::where('payment_id',$payment_id)->first();
+			$inst = MojoPaymentDetails::where('payment_id',$payment_id)->first();
 			$user_id = $inst->user_id;
 
-	    	MojoRefundDetails::create(['user_id' => $user_id,
-									   'payment_id' => $payment_id,
-									   'status' => $refund->status,
-									   'type' => $refund->type,
-									   'body' => $refund->body,
-									   'refund_amount' => $refund->refund_amount,
-									   'total_amount' => $refund->total_amount,
-									 ]);
+	    	$refund_record = MojoRefundDetails::create(['user_id' => $user_id,
+													   'refund_id' => $refund->refund_id,
+													   'payment_id' => $payment_id,
+													   'status' => $refund->status,
+													   'type' => $refund->type,
+													   'body' => $refund->body,
+													   'refund_amount' => $refund->refund_amount,
+													   'total_amount' => $refund->total_amount,
+													 ]);
 
 			DB::commit();
-			return $refund;
+			return $refund_record;
 		}
 
 		catch(Exception $e)
