@@ -5,6 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/lubusin/laravel-mojo/downloads)](https://packagist.org/packages/lubusin/laravel-mojo)
 
 ## Introduction
+![github-header](https://cloud.githubusercontent.com/assets/11228182/20463744/25754186-af60-11e6-9a48-543347a52c7f.jpg)
 Laravel Mojo provides an expressive, fluent interface to [Instamojo's](https://instamojo.com) online payments and refund services. It handles almost all of the boilerplate payment code you are dreading writing and are unable to watch next episode of Narcos because of the same. In addition to the basic payments and refunds management, Mojo stores all the tansactions & refunds details with him and gives them to you as you ask (No you don't even need to shout Ok google for that). 
 
 Here are a few short examples of what you can do:
@@ -25,7 +26,8 @@ $income = Mojo::myIncome(); // Total amount excluding Instamojo's fees
 
 $income = Mojo::mojosIncome(); // Instamojo's total fees
 ```
-> You can find many more such mojo helpers in the documentation 
+
+You can find many more such mojo helpers in the [documentation](https://github.com/lubusIN/laravel-mojo/wiki)
 
 ## Documentation
 You'll find the entire documentation & the spoiler for Narcos season 3 in the [wiki](https://github.com/lubusIN/laravel-mojo/wiki).
@@ -72,7 +74,7 @@ You can publish the config-file "laravelmojo.php" with:
 php artisan vendor:publish --provider="Lubus\Mojo\MojoServiceProvider" --tag="config"
 ```
 
-> A file "laravelmojo.php" would be published in the config directory. Make sure to fill in the correct config values and then proceed 
+A file "laravelmojo.php" would be published in the config directory. Make sure to fill in the correct config values and then proceed 
 
 ## Contributing
 
@@ -91,3 +93,6 @@ LUBUS is a web design agency based in Mumbai. More about us could be found here 
 
 ## License
 Laravel Mojo is open-sourced software licensed under the [MIT license](LICENSE.txt)
+
+## Changelog
+Please see the [Changelog](https://github.com/lubusIN/laravel-mojo/blob/master/changelog.md) for the details
