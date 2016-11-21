@@ -32,10 +32,10 @@ $income = Mojo::mojosIncome(); // Instamojo's total fees
 You can find many more such mojo helpers in the [documentation](https://github.com/lubusIN/laravel-mojo/wiki)
 
 ## Documentation
-You'll find the entire documentation & the spoiler for Narcos season 3 in the [wiki](https://github.com/lubusIN/laravel-mojo/wiki).
+You'll find the entire documentation & the spoiler for Narcos season 3 in the [WIKI](https://github.com/lubusIN/laravel-mojo/wiki).
 Since thats why the wiki is made for! But, no one cares sigh...
 
-Stuck somewhere using the laravel mojo, any feature requests, or tinder username? Feel free to [create an issue on GitHub](https://github.com/lubusIN/laravel-mojo/issues), I'll try to address it as soon as possible.
+Stuck somewhere using the laravel mojo, any feature requests, or tinder username? Feel free to [create an issue on gitHub](https://github.com/lubusIN/laravel-mojo/issues), I'll try to address it as soon as possible.
 
 Things coming in v2 :
 - Webhook Support
@@ -79,6 +79,8 @@ php artisan vendor:publish --provider="Lubus\Mojo\MojoServiceProvider" --tag="co
 ```
 
 A file "laravelmojo.php" would be published in the config directory. Make sure to fill in the correct config values and then proceed 
+
+> **After successful installation, continue with the documentation [here](https://github.com/lubusIN/laravel-mojo/wiki/1.-Prerequisites)**
 
 ## Contributing
 
