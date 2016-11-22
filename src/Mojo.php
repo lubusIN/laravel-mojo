@@ -4,15 +4,13 @@ namespace Lubus\Mojo;
 
 use Lubus\Mojo\Models\MojoPaymentDetails;
 use Lubus\Mojo\Models\MojoRefundDetails;
-use Illuminate\Http\Request;
-use App\Http\Requests;
 use Exception;
 use App\User;
 use DB;
 
 class Mojo
 {
-	public static function go($user,$amount,$purpose)
+	public static function go(User $user,$amount,$purpose)
 	{
 		DB::beginTransaction();
 

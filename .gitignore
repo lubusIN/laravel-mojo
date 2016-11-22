@@ -22,7 +22,6 @@ storage/
 # OSX
 # =========================
 
-.DS_Store
 .AppleDouble
 .LSOverride
 
@@ -48,8 +47,6 @@ Temporary Items
 # =========================
 
 # Windows image file caches
-Thumbs.db
-ehthumbs.db
 
 # Folder config file
 Desktop.ini
