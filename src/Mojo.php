@@ -80,7 +80,7 @@ class Mojo
 		
 	}
 
-	public static function updateDB($details)
+	public static function updateDB(array $details)
 	{
 		DB::beginTransaction();
 
