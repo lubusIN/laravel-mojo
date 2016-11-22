@@ -22,5 +22,3 @@ class MojoServiceProvider extends ServiceProvider
         $this->app->make('Lubus\Mojo\Mojo');
     }
 }
-
-?>

@@ -1,8 +1,10 @@
 # Laravel package to process transactions with Instamojo
 
 [![Latest Stable Version](https://poser.pugx.org/lubusin/laravel-mojo/v/stable)](https://packagist.org/packages/lubusin/laravel-mojo)
-[![License](https://poser.pugx.org/lubusin/laravel-mojo/license)](https://packagist.org/packages/lubusin/laravel-mojo)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lubusIN/laravel-mojo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lubusIN/laravel-mojo/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/lubusIN/laravel-mojo/badges/build.png?b=master)](https://scrutinizer-ci.com/g/lubusIN/laravel-mojo/build-status/master)
 [![Total Downloads](https://poser.pugx.org/lubusin/laravel-mojo/downloads)](https://packagist.org/packages/lubusin/laravel-mojo)
+[![License](https://poser.pugx.org/lubusin/laravel-mojo/license)](https://packagist.org/packages/lubusin/laravel-mojo)
 
 ## Introduction
 ![github-header](https://cloud.githubusercontent.com/assets/11228182/20463744/25754186-af60-11e6-9a48-543347a52c7f.jpg)

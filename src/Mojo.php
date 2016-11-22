@@ -6,6 +6,7 @@ use Lubus\Mojo\Models\MojoPaymentDetails;
 use Lubus\Mojo\Models\MojoRefundDetails;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Exception;
 use App\User;
 use DB;
 
@@ -56,8 +57,8 @@ class Mojo
 
 		try
 		{
-			$payment_id = $_GET['payment_id'];
-			$payment_request_id = $_GET['payment_request_id'];
+			$payment_id = filter_input(INPUT_GET, 'payment_id');
+			$payment_request_id = filter_input(INPUT_GET, 'payment_request_id');
 			$sub = config('laravelmojo.subdomain_for_endpoints');
 			$ch = static::setupCURL("https://$sub.instamojo.com/api/1.1/payment-requests/$payment_request_id/$payment_id/",config('laravelmojo.key'),config('laravelmojo.token'));
 
@@ -142,39 +143,39 @@ class Mojo
 
 	public static function allPayments()
 	{
-		 return $allPaymentDetails = MojoPaymentDetails::all();
+		 return MojoPaymentDetails::all();
 	}
 
 	public static function allPaymentsFor(User $user)
 	{
-		return $userSpecificDetails = MojoPaymentDetails::where('user_id',$user->id)->get();
+		return MojoPaymentDetails::where('user_id',$user->id)->get();
 	}
 
 	public static function failedPayments()
 	{
-		return $failedPayments = MojoPaymentDetails::where('payment_status','!=','credit')->get();
+		return MojoPaymentDetails::where('payment_status','!=','credit')->get();
 	}
 
 	public static function successfulPayments()
 	{
-		return $successfulPayments = MojoPaymentDetails::where('payment_status','credit')->get();
+		return MojoPaymentDetails::where('payment_status','credit')->get();
 	}
 
 	public static function myAndMojosIncome()
 	{
-		return $totalIncome = MojoPaymentDetails::sum('amount');
+		return MojoPaymentDetails::sum('amount');
 	}
 
 	public static function myIncome()
 	{
 		$a = MojoPaymentDetails::sum('amount');
 		$f = MojoPaymentDetails::sum('fees');
-		return $earnings = $a - $f;
+		return $a - $f;
 	}
 
 	public static function mojosIncome()
 	{
-		return $mojoShare = MojoPaymentDetails::sum('fees');
+		return MojoPaymentDetails::sum('fees');
 	}
 
 	public static function refund($payment_id,$type,$reason)
@@ -224,14 +225,12 @@ class Mojo
 
 	public static function allRefunds()
 	{
-		 return $allRefundDetails = MojoRefundDetails::all();
+		 return MojoRefundDetails::all();
 	}
 
 	public static function allRefundsFor(User $user)
 	{
-		return $userSpecificDetails = MojoRefundDetails::where('user_id',$user->id)->get();
+		return MojoRefundDetails::where('user_id',$user->id)->get();
 	}
 
 }
-
-?>

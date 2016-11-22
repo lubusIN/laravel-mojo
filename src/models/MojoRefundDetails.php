@@ -10,5 +10,3 @@ class MojoRefundDetails extends Model
 
     protected $fillable = ['user_id','refund_id','payment_id','status','type','body','refund_amount','total_amount',];
 }
-
-?>
