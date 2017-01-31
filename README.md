@@ -91,7 +91,7 @@ Thank you for considering contributing to the Laravel Mojo. You can read the con
 
 ## Security
 
-If you discover any security related issues, please email to [haristoshniwal@gmail.com](mailto:haristoshniwal@gmail.com) instead of using the issue tracker.
+If you discover any security related issues, please email to [harish@lubus.in](mailto:harish@lubus.in) instead of using the issue tracker.
 
 ## Credits
 
