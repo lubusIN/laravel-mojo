@@ -6,7 +6,6 @@ use Lubusin\Mojo\Models\MojoPaymentDetails;
 use Lubusin\Mojo\Models\MojoRefundDetails;
 use Exception;
 use App\User;
-use DB;
 
 class Mojo
 {
@@ -164,7 +163,7 @@ class Mojo
 		return $payload;
 	} 
 
-	private static function createRefundInDB($user_id,$refund,$payment_id)
+	private static function createRefundInDB($user_id,stdClass $refund,$payment_id)
 	{
 		$refund_record = MojoRefundDetails::create(['user_id' => $user_id,
 												   'refund_id' => $refund->id,
