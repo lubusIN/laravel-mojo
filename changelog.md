@@ -4,6 +4,7 @@ All notable changes to Laravel Mojo will be documented in this file
 
 ## v2.0 - 13-02-2017
 
+
 > **PHP 7.0 is now the minimum requirement to use v2.* of Laravel Mojo**
 
 - The vendor name has been updated in all the namespaces to avoid confusions and keep the organisation name & vendor name in sync. So everywhere where you have been using 
