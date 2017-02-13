@@ -163,7 +163,7 @@ class Mojo
 		return $payload;
 	} 
 
-	private static function createRefundInDB($user_id,stdClass $refund,$payment_id)
+	private static function createRefundInDB($user_id,\stdClass $refund,$payment_id)
 	{
 		$refund_record = MojoRefundDetails::create(['user_id' => $user_id,
 												   'refund_id' => $refund->id,
