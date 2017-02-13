@@ -14,9 +14,6 @@
 Laravel Mojo provides an expressive, fluent interface to [Instamojo's](https://instamojo.com) online payments and refund services. It handles almost all of the boilerplate payment code you are dreading writing and are unable to watch next episode of Narcos because of the same. In addition to the basic payments and refunds management, Mojo stores all the tansactions & refunds details with him and gives them to you as you ask (No you don't even need to shout Ok google for that). 
 
 
-> **If you are upgrading from v1 to v2 please checkout the [changelog](https://github.com/lubusIN/laravel-mojo/blob/master/changelog.md)**
-
-
 Here are a few short examples of what you can do:
 ```php
 $instamojoFormUrl = Mojo::giveMeFormUrl($user,$amount,$purpose);
@@ -43,6 +40,11 @@ You'll find the entire documentation & the spoiler for Narcos season 3 in the [W
 Since thats why the wiki is made for! But, no one cares sigh...
 
 Stuck somewhere using the laravel mojo, any feature requests, or a TV series recommendation? Feel free to [create an issue on gitHub](https://github.com/lubusIN/laravel-mojo/issues), I'll try to address it as soon as possible.
+
+## Prerequisites
+- If you are upgrading from v1 to v2 please checkout the [changelog](https://github.com/lubusIN/laravel-mojo/blob/master/changelog.md)
+- PHP >=7.0
+- CURL extension should be enabled
 
 ## Installation
 
