@@ -1,231 +1,219 @@
 <?php
 
-namespace Lubus\Mojo;
+namespace Lubusin\Mojo;
 
-use Lubus\Mojo\Models\MojoPaymentDetails;
-use Lubus\Mojo\Models\MojoRefundDetails;
+use Lubusin\Mojo\Models\MojoPaymentDetails;
+use Lubusin\Mojo\Models\MojoRefundDetails;
 use Exception;
 use App\User;
 use DB;
 
 class Mojo
 {
-	public static function go(User $user,$amount,$purpose)
+	/*
+	 * Accepts the order details and creates a
+	 * payment request at Instamojo's end
+	 * returning the payment form URL
+	 */
+
+	public static function giveMeFormUrl(User $user, $amount, $purpose, $phone = null)
 	{
-		DB::beginTransaction();
+		self::checkConfigValues();
 
-		try
-		{
-			$sub = config('laravelmojo.subdomain_for_endpoints');
-			$ch = static::setupCURL("https://$sub.instamojo.com/api/1.1/payment-requests/",config('laravelmojo.key'),config('laravelmojo.token'));
+		$sub = config('laravelmojo.subdomain_for_endpoints');
 
-			$details = ['purpose' => $purpose,
-					    'amount' => $amount,
-					    'phone' => $user->phone,
-					    'buyer_name' => $user->name,
-					    'redirect_url' => config('laravelmojo.redirect_url_after_payment'),
-					    'send_email' => false,
-					    'webhook' => '',
-					    'send_sms' => false,
-					    'email' => $user->email,
-					    'allow_repeated_payments' => false ];
+		$curl = self::setupCURL("https://{$sub}.instamojo.com/api/1.1/payment-requests/");
 
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($details));
-			$response = curl_exec($ch);
-			curl_close($ch); 
+		$payload = self::createPaymentPayload($user, $amount, $purpose, $phone);
 
-			$finalResponse = json_decode($response);
+        $response = self::closeCurl($curl,$payload); 
 
-			DB::commit();
-			return $finalResponse->payment_request->longurl;
-		}
-
-		catch(Exception $e)
-		{
-			DB::rollback();
-			return false;
-		}
+		$finalResponse = json_decode($response);
 		
+		return $finalResponse->payment_request->longurl;
 	}
 
-	public static function done()
+	/*
+	 * After the payment via Instamojo, it 
+	 * returns that payment's details
+	 * after redirection
+	 */
+
+	public static function giveMePaymentDetails()
 	{
-		DB::beginTransaction();
+		$payment_id = filter_input(INPUT_GET, 'payment_id');
+		$payment_request_id = filter_input(INPUT_GET, 'payment_request_id');
+		$sub = config('laravelmojo.subdomain_for_endpoints');
 
-		try
-		{
-			$payment_id = filter_input(INPUT_GET, 'payment_id');
-			$payment_request_id = filter_input(INPUT_GET, 'payment_request_id');
-			$sub = config('laravelmojo.subdomain_for_endpoints');
-			$ch = static::setupCURL("https://$sub.instamojo.com/api/1.1/payment-requests/$payment_request_id/$payment_id/",config('laravelmojo.key'),config('laravelmojo.token'));
+		$curl = self::setupCURL("https://{$sub}.instamojo.com/api/1.1/payment-requests/{$payment_request_id}/{$payment_id}/");
 
-			$response = curl_exec($ch);
-			curl_close($ch); 
+		$response = curl_exec($curl);
+		curl_close($curl); 
 
-			$decoded_response = json_decode($response);
-			$details = $decoded_response->payment_request;
-
-			static::updateDB($details);
-
-			DB::commit();
-			return $details;
-		}
-
-		catch(Exception $e)
-		{
-			DB::rollback();
-			return false;
-		}
-		
+		$decoded_response = json_decode($response);
+		return $decoded_response->payment_request;
+	
 	}
 
-	public static function updateDB(array $details)
+	/*
+	 * To process the refund's
+	 */
+
+	public static function refund($payment_id,$type,$reason)
 	{
-		DB::beginTransaction();
+		$sub = config('laravelmojo.subdomain_for_endpoints');
 
-		try
-		{
-			$user = User::where('email',$details->email)->first();
-			$user_id = $user->id;
+		$curl = static::setupCURL("https://{$sub}.instamojo.com/api/1.1/refunds/");
 
-	    	MojoPaymentDetails::create(['user_id' => $user_id,
-									   'buyer_email' => $details->email,
-									   'buyer_name' => $details->buyer_name,
-									   'buyer_phone' => $details->phone,
-									   'currency' => $details->payment->currency,
-									   'amount' => $details->amount,
-									   'fees' => $details->payment->fees,
-									   'longurl' => $details->longurl,
-									   'payment_id' => $details->payment->payment_id,
-									   'payment_request_id' => $details->id,
-									   'purpose' => $details->purpose,
-									   'shorturl' => $details->shorturl,
-									   'request_status' => $details->status,
-									   'payment_status' => $details->payment->status,
-									 ]);
-	    	DB::commit();
-	    	return true;
+		$payload = ['payment_id' => $payment_id,
+				    'type' => $type,
+				    'body' => $reason ];
+
+		$response = self::closeCurl($curl,$payload);
+		$afterDecoding = json_decode($response);
+		$refund = $afterDecoding->refund;
+
+		$transaction = MojoPaymentDetails::where('payment_id',$payment_id)->first();
+		$user_id = $transaction->user_id;
+
+		$refund_record = self::createRefundInDB($user_id,$refund,$payment_id);
+			
+		return $refund_record;
+	}
+
+	private static function checkConfigValues()
+	{
+		if (!config('laravelmojo.key')) {
+			throw new Exception('Please set the Instamojo API key in your env file');
 		}
 
-		catch(Exception $e)
-		{
-			DB::rollback();
-			return false;
+		elseif(!config('laravelmojo.token')) {
+			throw new Exception('Please set the Instamojo token in your env file');
+		}
+
+		elseif(!config('laravelmojo.redirect_url_after_payment')) {
+			throw new Exception('Please set the redirect url in your env file');
+		}
+
+		elseif(!config('laravelmojo.subdomain_for_endpoints')) {
+			throw new Exception('Please set the subdomain for Instamojo api endpoint in your env file');
+		}
+
+		elseif(!config('laravelmojo.webhook_url')) {
+			throw new Exception('Please set the webhook url in your env file');
+		}
+
+		elseif(!config('laravelmojo.salt')) {
+			throw new Exception('Please set the instamojo salt in your env file');
+		}
+
+		else {
+			return true;
 		}
 	}
 
-	public static function setupCURL($endPoint,$key,$token)
+	private static function setupCURL($apiEndpoint)
 	{
-			if (extension_loaded("curl")) 
-			{
-			  	$c_init = curl_init();
+		if (extension_loaded("curl")) {
+			
+			$ch = curl_init();
+			$api_key = config('laravelmojo.key');
+			$api_token = config('laravelmojo.token');
 
-				curl_setopt($c_init, CURLOPT_SSL_VERIFYPEER, false);
-				curl_setopt($c_init, CURLOPT_URL, $endPoint);
-				curl_setopt($c_init, CURLOPT_HEADER, FALSE);
-				curl_setopt($c_init, CURLOPT_RETURNTRANSFER, TRUE);
-				curl_setopt($c_init, CURLOPT_FOLLOWLOCATION, TRUE);
-				curl_setopt($c_init, CURLOPT_HTTPHEADER,[
-				                   "X-Api-Key: $key",
-				                   "X-Auth-Token: $token"]
-				            );
+			curl_setopt($ch, CURLOPT_URL, "$apiEndpoint");
+			curl_setopt($ch, CURLOPT_HEADER, FALSE);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+			curl_setopt($ch, CURLOPT_HTTPHEADER,["X-Api-Key:{$api_key}",
+			                                     "X-Auth-Token:{$api_token}"]);
+			return $ch;
 
-				return $c_init;
-			} 
-			else 
-			{
-			  	dd("Curl is not loaded");
-			}			
+		}
+		else {
+			throw new Exception('CURL extension is not loaded');
+		}
+	}
+
+	private static function closeCurl($curl,$payload)
+	{
+		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($payload));
+		$response = curl_exec($curl);
+		curl_close($curl);
+
+		return $response;
+	}
+
+	private static function createPaymentPayload(User $user, $amount, $purpose, $phone = null)
+	{
+		if(is_null($phone)) {
+			$phone = $user->phone;
+		}
+
+		$payload = ['purpose' => $purpose,
+					'amount' => $amount,
+					'phone' => $phone,
+					'buyer_name' => $user->name,
+					'redirect_url' => config('laravelmojo.redirect_url_after_payment'),
+					'send_email' => false,
+					'webhook' => config('laravelmojo.webhook_url'),
+					'send_sms' => false,
+					'email' => $user->email,
+					'allow_repeated_payments' => false ];
+
+		return $payload;
+	} 
+
+	private static function createRefundInDB($user_id,$refund,$payment_id)
+	{
+		$refund_record = MojoRefundDetails::create(['user_id' => $user_id,
+												   'refund_id' => $refund->id,
+												   'payment_id' => $payment_id,
+												   'status' => $refund->status,
+												   'type' => $refund->type,
+												   'body' => $refund->body,
+												   'refund_amount' => $refund->refund_amount,
+												   'total_amount' => $refund->total_amount,
+												 ]);
+
+		return $refund_record;
 	}
 
 	public static function allPayments()
 	{
 		 return MojoPaymentDetails::all();
 	}
-
 	public static function allPaymentsFor(User $user)
 	{
 		return MojoPaymentDetails::where('user_id',$user->id)->get();
 	}
-
 	public static function failedPayments()
 	{
 		return MojoPaymentDetails::where('payment_status','!=','credit')->get();
 	}
-
 	public static function successfulPayments()
 	{
 		return MojoPaymentDetails::where('payment_status','credit')->get();
 	}
-
 	public static function myAndMojosIncome()
 	{
 		return MojoPaymentDetails::sum('amount');
 	}
-
 	public static function myIncome()
 	{
 		$a = MojoPaymentDetails::sum('amount');
 		$f = MojoPaymentDetails::sum('fees');
 		return $a - $f;
 	}
-
 	public static function mojosIncome()
 	{
 		return MojoPaymentDetails::sum('fees');
-	}
-
-	public static function refund($payment_id,$type,$reason)
-	{
-		DB::beginTransaction();
-
-		try
-		{
-			$sub = config('laravelmojo.subdomain_for_endpoints');
-			$ch = static::setupCURL("https://$sub.instamojo.com/api/1.1/refunds/",config('laravelmojo.key'),config('laravelmojo.token'));
-
-			$details = ['payment_id' => $payment_id,
-					    'type' => $type,
-					    'body' => $reason ];
-
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($details));
-			$response = curl_exec($ch);
-			curl_close($ch); 
-
-			$finalResponse = json_decode($response);
-			$refund = $finalResponse->refund;
-
-			$inst = MojoPaymentDetails::where('payment_id',$payment_id)->first();
-			$user_id = $inst->user_id;
-
-	    	$refund_record = MojoRefundDetails::create(['user_id' => $user_id,
-													   'refund_id' => $refund->refund_id,
-													   'payment_id' => $payment_id,
-													   'status' => $refund->status,
-													   'type' => $refund->type,
-													   'body' => $refund->body,
-													   'refund_amount' => $refund->refund_amount,
-													   'total_amount' => $refund->total_amount,
-													 ]);
-
-			DB::commit();
-			return $refund_record;
-		}
-
-		catch(Exception $e)
-		{
-			DB::rollback();
-			return false;
-		}
 	}
 
 	public static function allRefunds()
 	{
 		 return MojoRefundDetails::all();
 	}
-
 	public static function allRefundsFor(User $user)
 	{
 		return MojoRefundDetails::where('user_id',$user->id)->get();

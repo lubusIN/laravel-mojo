@@ -10,4 +10,4 @@ Pull requests for bugs may be sent without creating any proposal issue. If you b
 
 ### Feature Requests
 
-If you have an idea for a new feature you would like to see added to this package, you may create an issue on GitHub with `[Request]` in the title. The feature request will then be reviewed by @harishtoshniwal.
+If you have an idea for a new feature you would like to see added to this package, you may create an issue on GitHub with `[Request]` in the title. The feature request will then be reviewed by [@introwit](https://github.com/introwit)

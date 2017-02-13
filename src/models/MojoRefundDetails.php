@@ -1,6 +1,6 @@
 <?php
 
-namespace Lubus\Mojo\Models;
+namespace Lubusin\Mojo\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lubus\Mojo;
+namespace Lubusin\Mojo;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -8,17 +8,14 @@ class MojoServiceProvider extends ServiceProvider
 {
 	public function boot()
 	{
-	    $this->publishes([
-		        __DIR__ . '/migrations' => $this->app->databasePath() . '/migrations'
-		    ], 'migrations');
+	    $this->loadMigrationsFrom(__DIR__.'/../migrations');
 
 	    $this->publishes([
-		        __DIR__.'/config/laravelmojo.php' => config_path('laravelmojo.php'),
-		    ], 'config');
+        	__DIR__.'/config/laravelmojo.php' => config_path('laravelmojo.php'),
+    	]);
 	}
-
     public function register()
     {
-        $this->app->make('Lubus\Mojo\Mojo');
+        
     }
 }
