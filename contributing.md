@@ -1,13 +1,3 @@
 # Mojo Contribution Guide
 
-This page contains guidelines for contributing to the Laravel Mojo. Please review these guidelines before submitting any pull requests to this package.
-
-## Pull Requests
-
-The pull request process differs for new features and bugs. Before sending a pull request for a new feature, you should first create an issue with `[Proposal]` in the title. The proposal should describe the new feature, as well as implementation ideas. The proposal will then be reviewed and either approved or denied. Once a proposal is approved, a pull request may be created implementing the new feature. Pull requests which do not follow this guideline will be closed immediately.
-
-Pull requests for bugs may be sent without creating any proposal issue. If you believe that you know of a solution for a bug that has been filed on GitHub, please leave a comment detailing your proposed fix.
-
-### Feature Requests
-
-If you have an idea for a new feature you would like to see added to this package, you may create an issue on GitHub with `[Request]` in the title. The feature request will then be reviewed by [@introwit](https://github.com/introwit)
+Just maintain the PSR2 standards, thats it. If you have any feature requests or suggestions feel free to create an issue or let us know if you are working on a PR for that. Always more than happy to learn new things from the community :)

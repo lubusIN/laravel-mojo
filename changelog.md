@@ -1,9 +1,9 @@
-#Changelog
-
 All notable changes to Laravel Mojo will be documented in this file
 
-## v2.0 - 13-02-2017
+## v2.0.1 (13-02-2017)
+- Indentation fixed
 
+## v2.0 (13-02-2017)
 
 > **PHP 7.0 is now the minimum requirement to use v2.* of Laravel Mojo**
 
@@ -34,5 +34,5 @@ use LubusIN\Mojo\Mojo;
 
 - Game of Thrones season 8 spoiler in the docs
 
-## v1.5 - 20-11-2016
+## v1.5 (20-11-2016)
 - Initial Stable release

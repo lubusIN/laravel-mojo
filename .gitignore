@@ -1,1 +1,6 @@
 /vendor
+/migrations/.php_cs.cache
+/src/.php_cs.cache
+/src/config/.php_cs.cache
+/src/controllers/.php_cs.cache
+/src/models/.php_cs.cache
