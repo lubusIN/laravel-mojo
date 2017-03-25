@@ -1,7 +1,10 @@
 All notable changes to Laravel Mojo will be documented in this file
 
-## v2.0.1 (13-02-2017)
+## v2.0.2 (25-03-2017)
 - Indentation fixed
+
+## v2.0.1 (13-02-2017)
+- Minor fixes
 
 ## v2.0 (13-02-2017)
 
