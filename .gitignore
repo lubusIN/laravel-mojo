@@ -1,3 +1,4 @@
+composer.lock
 /vendor
 /migrations/.php_cs.cache
 /src/.php_cs.cache

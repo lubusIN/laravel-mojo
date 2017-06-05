@@ -1,5 +1,8 @@
 All notable changes to Laravel Mojo will be documented in this file
 
+## v2.0.3 (05-06-2017)
+- Package autoloading for Laravel 5.5
+
 ## v2.0.2 (25-03-2017)
 - Indentation fixed
 

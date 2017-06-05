@@ -22,5 +22,12 @@
     "require-dev": {
         "illuminate/routing": "~5.3",
         "illuminate/http": "~5.3"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lubusin\\Mojo\\ServiceProvider"
+            ]
+        }
     }
 }
