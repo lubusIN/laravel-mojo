@@ -1,5 +1,5 @@
 {
-    "name": "lubusin/laravel-mojo",
+    "name": "rippleworks/laravel-mojo",
     "description": "Laravel Mojo provides an expressive, fluent interface to Instamojo's payment and refund services.",
     "keywords": ["laravel", "instamojo", "package"],
     "license": "MIT",	
@@ -7,6 +7,10 @@
         {
             "name": "Harish Toshniwal",
             "email": "harish@lubus.in"
+        },
+        {
+            "name": "Nilesh PS",
+            "email": "nps17thatsme@gmail.com"
         }
     ],
     "autoload": {
@@ -26,7 +30,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Lubusin\\Mojo\\ServiceProvider"
+                "Lubusin\\Mojo\\MojoServiceProvider"
             ]
         }
     }
