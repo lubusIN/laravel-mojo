@@ -88,12 +88,19 @@ Thank you for considering contributing to the Laravel Mojo. You can read the con
 
 If you discover any security related issues, please email to [harish@lubus.in](mailto:harish@lubus.in) instead of using the issue tracker.
 
+## Meet Your Artisans
+
+[LUBUS](http://lubus.in) is a web design agency based in Mumbai, India.
+
+<a href="https://cal.com/lubus">
+<img src="https://raw.githubusercontent.com/lubusIN/.github/refs/heads/main/profile/banner.png" />
+</a>
+
 ## Credits
 
-- [Harish Toshniwal](https://github.com/introwit)
-
-## About LUBUS
-LUBUS is a web design agency based in Mumbai. More about us could be found here [on our website](http://lubus.in).
+<a href="https://github.com/lubusIN/visual-blueprint-builder/graphs/contributors">
+  <img height="36px" src="https://contrib.rocks/image?repo=lubusIN/laravel-mojo" />
+</a>
 
 ## License
 Laravel Mojo is open-sourced software licensed under the [MIT license](LICENSE.txt)
