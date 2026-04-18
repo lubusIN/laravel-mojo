@@ -90,7 +90,7 @@ If you discover any security related issues, please email to [harish@lubus.in](m
 
 ## Meet Your Artisans
 
-[LUBUS](http://lubus.in) is a web design agency based in Mumbai, India.
+[LUBUS](https://lubus.in/?utm_source=github&utm_medium=open-source&utm_campaign=laravel-mojo) is a web design agency based in Mumbai, India.
 
 <a href="https://cal.com/lubus">
 <img src="https://raw.githubusercontent.com/lubusIN/.github/refs/heads/main/profile/banner.png" />
