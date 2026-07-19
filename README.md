@@ -9,6 +9,9 @@
 <a href="https://packagist.org/packages/lubusin/laravel-mojo"><img src="https://poser.pugx.org/lubusin/laravel-mojo/license" alt="License"></a>
 </p>
 
+> [!CAUTION]
+> Instamojo has **discontinued** its standalone payment gateway operations. This package is no longer maintained and will not work with modern Laravel versions.
+
 ## Introduction
 
 Laravel Mojo provides an expressive, fluent interface to [Instamojo's](https://instamojo.com) online payments and refund services. It handles almost all of the boilerplate payment code you are dreading writing and are unable to watch next episode of Narcos because of the same. In addition to the basic payments and refunds management, Mojo stores all the tansactions & refunds details with him and gives them to you as you ask (No you don't even need to shout Ok google for that). 
